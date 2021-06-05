@@ -1,0 +1,54 @@
+#pragma once
+#include <cstdint>
+
+namespace Auto{
+    namespace _ {
+        template <class T>
+        class BasicAutoType{
+            public:
+                BasicAutoType(const T &value):value(value){}
+                BasicAutoType(const BasicAutoType<T> & ) = default;
+                ~BasicAutoType(){}
+
+                operator T()const{
+                    return value;
+                }
+
+                operator T&(){
+                    return value;
+                }
+
+                T* operator &(){
+                    return &value;
+                } 
+
+                const T* operator &()const{
+                    return &value;
+                } 
+
+                T* operator ->(){
+                    return &value;
+                }
+
+                const T* operator->()const{
+                    return &value;
+                }
+            protected:
+                T value;
+        };
+    };
+    using Int =  _::BasicAutoType<int>;
+    using Int8 = _::BasicAutoType<int8_t>;
+    using Int16 = _::BasicAutoType<int16_t>;
+    using Int32 = _::BasicAutoType<int32_t>;
+    using Int64 = _::BasicAutoType<int64_t>;
+
+    using UInt =  _::BasicAutoType<unsigned int>;
+    using UInt8 = _::BasicAutoType<uint8_t>;
+    using UInt16 = _::BasicAutoType<uint16_t>;
+    using UInt32 = _::BasicAutoType<uint32_t>;
+    using UInt64 = _::BasicAutoType<uint64_t>;
+
+    using Char = _::BasicAutoType<char>;
+    using Byte = _::BasicAutoType<unsigned char>;
+};

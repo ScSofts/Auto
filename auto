@@ -1,0 +1,12 @@
+#pragma once
+
+#if !defined(__cplusplus) || __cplusplus < 201103L
+    #error "The auto library is only for modern c++!"
+#endif
+
+
+#include "core/auto_var"
+#include "core/auto_vector"
+#include "core/auto_string"
+#include "core/auto_regex"
+#include "core/auto_map"

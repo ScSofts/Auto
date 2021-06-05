@@ -1,0 +1,29 @@
+#pragma once
+#include <regex>
+#include <stdlib.h>
+#include <string.h>
+
+namespace Auto{
+    using Regex = std::regex;
+    using WRegex = std::wregex;
+    using RegexIterator = std::sregex_iterator;
+    using WRegexIterator = std::wsregex_iterator;
+    using std::regex_match;
+    using std::regex_replace;
+    using std::regex_search;
+    using RegexTokenIterator = std::sregex_token_iterator;
+    using WRegexTokenIterator = std::wsregex_token_iterator;
+    using RegexError = std::regex_error;
+    using namespace std::regex_constants;
+};
+
+inline Auto::Regex operator "" _re(char const* str,size_t){
+    return std::regex(str);
+}
+
+inline Auto::WRegex operator "" _wre(char const* str,size_t len){
+    wchar_t tmp[len];
+    mbtowc(tmp, str, len);
+    return std::wregex(tmp);
+}
+

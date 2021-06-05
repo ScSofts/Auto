@@ -1,0 +1,11 @@
+-target
+i686-w64-windows-gnu
+-isystem
+D:/llvm-mingw-12/llvm-mingw/include
+-isystem
+D:/llvm-mingw-12/llvm-mingw/include/c++/v1  
+-isystem
+D:/llvm-mingw-12/llvm-mingw/lib/clang/12.0.0/include  
+-std=c++20
+-ID:/llvm-mingw-12/llvm-mingw/include/c++/v1  
+-ID:/llvm-mingw-12/llvm-mingw/include  

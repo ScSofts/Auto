@@ -1,0 +1,88 @@
+#pragma once
+#include <initializer_list>
+#include <map>
+#include <unordered_map>
+#include <functional>
+
+namespace Auto{
+    template <class TKey,class TValue>
+    using Pair = std::pair<TKey,TValue>;
+    
+    
+    template <class TKey,class TValue, class Pr = std::less<TKey> ,class TAlloc =  std::allocator<Pair<const TKey,TValue>> >
+    class Map: public std::map<TKey,TValue,Pr,TAlloc>{
+        using _base = std::map<TKey,TValue,Pr,TAlloc>;
+        public:
+            using _value = Pair<const TKey,TValue>;
+            Map(const std::initializer_list<_value> &lz_list):_base(lz_list){}
+            Map(size_t size, _value elem = {}):_base(size,elem){}
+            Map(const std::map<TKey,TValue,Pr,TAlloc> & map):_base(map){}
+            Map(const Map<TKey,TValue,Pr,TAlloc> & map) = default;
+            Map(Map<TKey,TValue,Pr,TAlloc> && map) = default;
+
+            ~Map(){ this->clear(); }
+
+            void every(std::function<void(TValue &value,TKey index)> func){
+                for(auto i : *this){
+                    func(i.second,i.first);
+                }
+            }
+
+            void every(std::function<void(const Pair<TKey,TValue> &value,size_t index)> func)const{
+                for(const auto i : *this){
+                    func(i.second,i.first);
+                }
+            }
+
+            void every(std::function<void(TValue &value)> func){
+                for(auto i : *this){
+                    func(i.second);
+                }
+            }
+
+            void every(std::function<void(const TValue &value)> func)const{
+                for(const auto i : *this){
+                    func(i.second);
+                }
+            }
+    };
+
+
+    template <class TKey,class TValue, class Hasher = std::hash<TKey> ,class TAlloc = std::allocator<Pair<const TKey,TValue>> >
+    class HashMap: public std::unordered_map<TKey,TValue,Hasher,TAlloc>{
+        using _base = std::unordered_map<TKey,TValue,Hasher,TAlloc>;
+        public:
+            using _value = Pair<const TKey,TValue>;
+            HashMap(const std::initializer_list<_value> &lz_list):_base(lz_list){}
+            HashMap(size_t size,_value elem = {}):_base(size,elem){}
+            HashMap(const std::unordered_map<TKey,Hasher,TValue,TAlloc> & map):_base(map){}
+            HashMap(const HashMap<TKey,TValue,Hasher,TAlloc> &) = default;
+            HashMap(HashMap<TKey,TValue,Hasher,TAlloc> &&) = default;
+
+            ~HashMap(){ this->clear(); }
+
+            void every(std::function<void(TValue &value,TKey index)> func){
+                for(auto i : *this){
+                    func(i.second,i.first);
+                }
+            }
+
+            void every(std::function<void(const Pair<TKey,TValue> &value,size_t index)> func)const{
+                for(const auto i : *this){
+                    func(i.second,i.first);
+                }
+            }
+
+            void every(std::function<void(TValue &value)> func){
+                for(auto i : *this){
+                    func(i.second);
+                }
+            }
+
+            void every(std::function<void(const TValue &value)> func)const{
+                for(const auto i : *this){
+                    func(i.second);
+                }
+            }
+    };
+};

@@ -1,0 +1,77 @@
+#pragma once
+#include <regex>
+#include <string>
+#include "auto_regex"
+#include <functional>
+#include "auto_vector"
+
+namespace Auto {
+    class String:public std::string{
+        public:
+        using iterator = std::string::iterator;
+        String (const std::string & str=""):std::string(str){}
+        String (const char * str=""):std::string(str){}
+        String (const String &) = default;
+        String (String &&) = default;
+        String (const iterator begin,const iterator end):std::string(begin,end){}
+        String (size_t size,const char elem = ' '):std::string(size,elem){}
+        ~String(){ this->clear(); }
+
+        const Vector<String> split(Regex separator)const{
+            RegexTokenIterator result_begin{this->begin(), this->end(), separator , -1};
+            RegexTokenIterator result_end{};
+            return Vector<String>(result_begin,result_end);
+        }
+
+
+        void every(std::function<void(char &value,size_t index)> func){
+            for(size_t i = 0 ; i< this->length() ; i++){
+                func((*this)[i],i);
+            }
+        }
+
+        void every(std::function<void(char &value)> func){
+            for(auto i : *this){
+                func(i);
+            }
+        }
+
+         void every(std::function<void(const char &value)> func)const{
+            for(auto i : *this){
+                func(i);
+            }
+        }
+
+    };
+
+    class WString:public std::wstring{
+        public:
+        using iterator = std::wstring::iterator;
+        WString(const std::wstring & wstr=L""):std::wstring(wstr){}
+        WString(const wchar_t * wstr=L""):std::wstring(wstr){}
+        WString (const WString &) = default;
+        WString (WString &&) = default;
+        WString (const iterator begin,const iterator end):std::wstring(begin,end){}
+        WString (size_t size,const wchar_t elem = ' '):std::wstring(size,elem){}
+        ~WString(){ this->clear(); }
+
+        const Vector<WString> split(WRegex separator)const{
+            WRegexTokenIterator result_begin{this->begin(), this->end(), separator , -1};
+            WRegexTokenIterator result_end{};
+            return Vector<WString>(result_begin,result_end);
+        }
+
+        void every(std::function<void(wchar_t &value,size_t index)> func){
+            for(size_t i = 0 ; i< this->length() ; i++){
+                func((*this)[i],i);
+            }
+        }
+
+         void every(std::function<void(const wchar_t &value,size_t index)> func)const{
+            for(size_t i = 0 ; i< this->length() ; i++){
+                func((*this)[i],i);
+            }
+        }
+
+    };
+};
